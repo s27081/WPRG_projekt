@@ -1,0 +1,22 @@
+.thread-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.thread-box img {
+    max-width: 100%;
+    height: auto;
+}
+.thread-box h2 {
+    margin: 0 0 10px;
+}
+.thread-box ul {
+    list-style-type: none;
+    padding: 0;
+}
+.thread-box ul li {
+    background: #f9f9f9;
+    margin: 5px 0;
+    padding: 5px;
+}

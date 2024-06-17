@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "SELECT * FROM users WHERE username = '$username' AND passcode = '$password'";
     $result = mysqli_query($db, $sql);
 
+    //validate user
     if (mysqli_num_rows($result) == 1) {
         $_SESSION['username'] = $username;
         header("Location: index.php");
