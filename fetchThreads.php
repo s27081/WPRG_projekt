@@ -3,7 +3,11 @@ include 'config.php';
 include 'thread.php';
 
 //get data from database
-$sql = "SELECT * FROM threads ORDER BY publish_date DESC";
+$sql = "SELECT t.*, i.file_path
+        FROM threads t
+        LEFT JOIN images i ON t.image_id = i.id
+        ORDER BY t.publish_date DESC";
+
 $result = mysqli_query($db, $sql);
 
 $threads = [];
@@ -31,11 +35,13 @@ if (mysqli_num_rows($commentResult) > 0) {
     }
 }
 
+
+
 $threads[] = new Thread(
     $row['id'],
     $row['title'],
     $row['content'],
-    $row['image_id'],
+    $row['file_path'],
     $row['publish_date'],
     $comments
     );
@@ -53,7 +59,7 @@ foreach ($threads as $thread) {
     echo "<h2>" . $thread->title . "</h2>";
     echo "<p>" . $thread->content . "</p>";
     if ($thread->image) {
-        echo "<img style='float:right' src='" . $thread->image . "' alt='" . $thread->title . "'>";
+        echo "<img src='" . $thread->image . "' alt='" . $thread->title . "'>";
     }
     echo "<p><small>Opublikowano:  " . $thread->publishDate . "</small></p>";
 

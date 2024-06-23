@@ -15,19 +15,21 @@ if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $
 
     //handle file upload
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-    $image_tmp = $_FILES['image']['tmp_name'];
-    $name = $_FILES['image']['name'];
+    $imageTmp = $_FILES['image']['tmp_name'];
+    $name = basename($_FILES['image']['name']);
 
-    $image = base64_encode(file_get_contents($image_tmp));
+    $targetDir="images/";
+    $targetFile = $targetDir . time() . "_" . $name;
 
-    $sqlInsertimage = "INSERT INTO images (file_name, file_data, upload_date) VALUES ('$name', '$image', NOW())";
-
-   
-    if (mysqli_query($db, $sqlInsertimage)) {
-        echo "<br/>Image uploaded successfully.";
+    if (move_uploaded_file($imageTmp, $targetFile)) {
+        $sqlInsertimage = "INSERT INTO images (file_name, file_path, upload_date) VALUES ('$name', '$targetFile', NOW())";
+        
+        if(mysqli_query($db, $sqlInsertimage)){
+        echo "<br/>Pomyślnie dodano zdjecie";
         $image_id = mysqli_insert_id($db);
+        }
     } else {
-        echo "<br/>Image Failed to upload.<br/>";
+        echo "<br/>Nie udalo sie dodac zdjecia<br/>";
         echo "Error: " . mysqli_error($db);
     }
 }
@@ -35,13 +37,13 @@ if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $
     $sqlAddThread = "INSERT INTO threads (title, content, image_id, publish_date)
                     VALUES ('$title', '$content', $image_id, NOW())";
      
-    if (mysqli_query($db,$sqlAddThread)) {
+   if (mysqli_query($db,$sqlAddThread)) {
         header("Location: index.php");
-        exit();
-    } else {
+       exit();
+   } else {
        
-        echo "Error: " . $sql . "<br>" . mysqli_error($db);
-    }
+       echo "Error: " . $sql . "<br>" . mysqli_error($db);
+   }
 
     mysqli_close($db);
 

@@ -1,11 +1,15 @@
 <?php
 session_start();
 
-if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $_SESSION['username'] === 'Administrator')){
+if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster')){
     echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a><br>";
     echo "<a href='createThread.php'>Stworz watek</a>";
+}else if(isset($_SESSION['username']) && $_SESSION['username'] === "Administrator"){
+    echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a><br>";
+    echo "<a href='createThread.php'>Stworz watek</a>";
+    echo "<a href='adminPanel.php'>Panel administracyjny</a>";
 }else if(isset($_SESSION['username'])){
-    echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a>";
+    echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a><br><a href='contactWriter.php'>Napisz do autora</a>";
 }
 else {
     echo "Witaj, Guest! <a href='login.php'>Login</a>";
