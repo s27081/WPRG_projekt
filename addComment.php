@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$thread_id', '$content', '$user_id', NOW())";
 
     if (mysqli_query($db, $sql)) {
-        header("Location: index.php");
+        header("Location: index.php#thread-$thread_id");
         exit();
     } else {
        

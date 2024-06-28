@@ -1,6 +1,7 @@
 <?php
 include 'config.php';
 
+if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $_SESSION['username'] === 'Administrator')){
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['thread_id']) && isset($_POST['title']) && isset($_POST['content'])) {
@@ -25,6 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $threadData = mysqli_fetch_assoc($threadResult);
     }
 }
+}
+else{
+    echo "<h3>Nie masz wystarczających uprawnień</h3>";
+    echo "<a href='index.php'>Powrót do strony</a>";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,19 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Edytuj wpis</title>
 </head>
 <body>
     <h1>Edytuj wpis</h1>
-    <form method="POST" action="editThread.php">
+    <?php if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $_SESSION['username'] === 'Administrator')): ?>
+    <form method="POST" action="" class="addThread">
         <input type="hidden" name="thread_id" value="<?php echo $threadData['id']; ?>">
-        <label for="title">Tytul:</label><br>
+        <label for="title">Tytuł:</label><br>
         <input type="text" name="title" value="<?php echo $threadData['title']; ?>" required>
         <br>
-        <label for="content">Zawartosc:</label><br>
+        <label for="content">Zawartość:</label><br>
         <textarea name="content" required><?php echo $threadData['content']; ?></textarea>
         <br>
         <input type="submit" value="Zaktualizuj wpis">
     </form>
+    <?php endif; ?>
 </body>
 </html>

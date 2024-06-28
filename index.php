@@ -1,19 +1,6 @@
 <?php
 session_start();
 
-if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster')){
-    echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a><br>";
-    echo "<a href='createThread.php'>Stworz watek</a>";
-}else if(isset($_SESSION['username']) && $_SESSION['username'] === "Administrator"){
-    echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a><br>";
-    echo "<a href='createThread.php'>Stworz watek</a>";
-    echo "<a href='adminPanel.php'>Panel administracyjny</a>";
-}else if(isset($_SESSION['username'])){
-    echo "Witaj, {$_SESSION['username']}! <a href='logout.php'>Wyloguj</a><br><a href='contactWriter.php'>Napisz do autora</a>";
-}
-else {
-    echo "Witaj, Guest! <a href='login.php'>Login</a>";
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +11,14 @@ else {
     <title>Glówna</title>
 </head>
 <body>
+    <nav>
+        <ul>
+        <?php include 'navBar.php'?>
+        </ul>
+    </nav>
     <h1>EURO 2024 BLOG</h1>
-    <h2>Wpisy:</h2>
+    <h2>Wpisy</h2>
+    <?php include 'fetchThreads.php'; ?>
 </body>
-<?php include 'fetchThreads.php'; ?>
+
 </html>

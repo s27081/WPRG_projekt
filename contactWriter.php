@@ -46,13 +46,19 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Napisz do autora</title>
 </head>
 <body>
-<form action="" method="post">
-            <label for="">Temat</label><br>
+<nav>
+        <ul>
+        <?php include 'navBar.php'?>
+        </ul>
+    </nav>
+<form class="contactWriter" action="" method="post">
+            <label for="">Temat</label>
             <input type="text" name="subject"><br>
-            <label for="message">Wiadomość</label><br>
+            <label for="message">Wiadomość</label>
             <textarea id="message" name="message" rows="5" required></textarea><br>
             <input type="submit" value="Wyślij wiadomość"><br>
         </form>

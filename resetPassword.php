@@ -45,18 +45,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Zapomniałem hasła</title>
 </head>
 <body>
-    <a href="login.php">Powrót do logowania</a>
+<nav>
+    <ul>
+    <?php include 'navBar.php'?>
+    </ul>
+</nav>
     <h1>Odzyskiwanie hasła</h1>
-    <form action="" method="post">
-        <label for="email">Podaj swój adres email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="">Podaj nazwę uzytkownika</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="">Podaj nowe hasło</label><br>
-        <input type="password" id="pasword" name="password" required><br><br>
+    <form class="login" action="" method="post">
+        <label for="email">Podaj swój adres email</label>
+        <input type="mail" name="email" required><br>
+        <label for="">Podaj nazwę uzytkownika</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="">Podaj nowe hasło</label>
+        <input type="password" id="pasword" name="password" required><br>
         <input type="submit" value="Submit">
     </form>
 </body>

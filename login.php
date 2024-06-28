@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("location: index.php");
 
     }else{
-        echo "Invalid username or password";
+        echo "Błędny uzytkownik lub hasło";
     }
 
     mysqli_close($db);
@@ -60,18 +60,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Zaloguj się</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="post" action="">
-        <label for="username">Nazwa uzytkownika:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Haslo:</label><br>
-        <input type="password" id="password" name="password"><br>  
-        <input type="submit" value="Zaloguj">
-    </form>
-    <a href="createAccount.php">Zarejestruj się</a>
-    <a href="resetPassword.php">Zapomniałem hasła</a>
+<nav>
+    <ul>
+    <?php include 'navBar.php'?>
+    </ul>
+</nav>
+    <div class="login-container">
+        <h2>Zaloguj się</h2>
+        <form class="login" method="post" action="">
+            <label for="username">Nazwa użytkownika</label>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Hasło</label>
+            <input type="password" id="password" name="password"><br>  
+            <input type="submit" value="Zaloguj">
+        </form>
+        <div class="login-links">
+            <a href="createAccount.php">Zarejestruj się</a>
+            <a href="resetPassword.php">Zapomniałem hasła</a>
+        </div>
+    </div>
 </body>
 </html>

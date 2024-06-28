@@ -55,7 +55,7 @@ mysqli_close($db);
 
 //display the threads
 foreach ($threads as $thread) {
-    echo "<div class='thread-box'>";
+    echo "<div class='thread-box' id='thread-" . $thread->id . "'>";
     echo "<h2>" . $thread->title . "</h2>";
     echo "<p>" . $thread->content . "</p>";
     if ($thread->image) {

@@ -1,5 +1,7 @@
 <?php
+session_start();
 
+if (isset($_SESSION['username']) && ($_SESSION['username'] === 'Administrator')){
 function showUsers(){
     include 'config.php';
     //get data from database
@@ -8,10 +10,14 @@ function showUsers(){
     
 
     if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<a href='userPage.php?username={$row['username']}'>{$row['username']}</a><br>";
+        echo "<div class='adminPanel'>";
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<a class='user-link' href='userPage.php?username={$row['username']}'>{$row['username']}</a><br>";
+        }
+        echo "</div>";
+    } else {
+        echo "No users found.";
     }
-}
 }
 
 function showThreads(){
@@ -22,21 +28,22 @@ function showThreads(){
     $result = mysqli_query($db, $sql);
 
     if (mysqli_num_rows($result) > 0) {
+        echo "<div class='adminPanel'>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<div class='thread-box'>";
             echo "<h2>{$row['title']}</h2>";
             echo "<p>{$row['content']}</p>";
-
-            //edit thread
-            echo "<a href='editThread.php?thread_id={$row['id']}'>Edit</a>";
-
-            //delete thread 
-            echo "<form method='POST' action='' style='display:inline; margin-left: 10px;'>";
+    
+            //edit thread link
+            echo "<a href='editThread.php?thread_id={$row['id']}' class='edit-link'>Edit</a>";
+    
+            //delete thread form
+            echo "<form method='POST' action='' class='delete-thread-form'>";
             echo "<input type='hidden' name='delete_thread_id' value='{$row['id']}'>";
-            echo "<input type='submit' value='Usun' onclick='return confirm(\"Czy na pewno checsz usunąć wpis?\");'>";
+            echo "<input type='submit' value='Delete' onclick='return confirm(\"Czy na pewno chcesz usunąć wpis?\");'>";
             echo "</form>";
-
-
+    
+            //fetch comments per thread
             $commentSql = "
                 SELECT c.id as comment_id, c.content, c.date, u.username
                 FROM comments c
@@ -44,26 +51,27 @@ function showThreads(){
                 WHERE c.thread_id = '{$row['id']}'
                 ORDER BY c.date DESC";
             $commentResult = mysqli_query($db, $commentSql);
-
+    
             if (mysqli_num_rows($commentResult) > 0) {
                 echo "<h3>Komentarze:</h3>";
                 echo "<ul>";
                 while ($commentRow = mysqli_fetch_assoc($commentResult)) {
                     echo "<li>";
-                    echo "<p>{$commentRow['content']}<br><small>Uzytkownik: {$commentRow['username']} dnia: {$commentRow['date']}</small></p>";
-
+                    echo "<p>{$commentRow['content']}<br><small>Użytkownik: {$commentRow['username']} dnia: {$commentRow['date']}</small></p>";
+    
                     //delete single comment
-                    echo "<form method='POST' action='' style='display:inline;'>";
+                    echo "<form method='POST' action='' class='delete-comment-form'>";
                     echo "<input type='hidden' name='delete_comment_id' value='{$commentRow['comment_id']}'>";
                     echo "<input type='submit' value='Delete Comment' onclick='return confirm(\"Czy na pewno chcesz usunąć ten komentarz?\");'>";
                     echo "</form>";
-
+    
                     echo "</li>";
                 }
                 echo "</ul>";
             }
             echo "</div><hr>";
         }
+        echo "</div>";
     } else {
         echo "No threads found.";
     }
@@ -95,7 +103,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     mysqli_close($db);
 }
-
+}else{
+    echo "<h3>Nie masz wystarczających uprawnień</h3>";
+    echo "<a href='index.php'>Powrót do strony</a>";
+    exit();
+}
 ?>
 
 
@@ -104,10 +116,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Panel admina</title>
 </head>
 <body>
-    <a href="index.php">Powrot do strony glownej</a>
+<nav>
+        <ul>
+        <?php include 'navBar.php'?>
+        </ul>
+    </nav>
+    <?php if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $_SESSION['username'] === 'Administrator')): ?>
     <div>
         <h2>Uzytkownicy</h2>
         <?php showUsers()?>
@@ -115,6 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div>
         <h2>Wpisy</h2>
         <?php showThreads()?>
-    </div>   
+    </div>
+    <?php endif; ?>
 </body>
 </html>

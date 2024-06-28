@@ -49,7 +49,7 @@ if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $
 
 }
 }else{
-    echo "<h3>Nie masz wystarczających uprawnień aby dodać wątek</h3>";
+    echo "<h3>Nie masz wystarczających uprawnień</h3>";
     echo "<a href='index.php'>Powrót do strony</a>";
     exit();
 }
@@ -61,20 +61,31 @@ if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create thread</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Stwórz wątek</title>
 </head>
 <body>
-    <h1>Stworz wpis</h1>
+    <nav>
+    <ul>
+    <?php include 'navBar.php'?>
+    </ul>
+    </nav>
+    <h1>Stwórz wpis</h1>
     <?php if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $_SESSION['username'] === 'Administrator')): ?>
-    <form action="" method="post" enctype="multipart/form-data">
-        <label for="title">Tytuł:</label><br>
-        <input type="text" name="title"><br>
-        <label for="content">Treść:</label><br>
-        <input type="text" name="content"><br>
-        <label for="image">Wybierz zdjęcie:</label><br>
-        <input type="file" id="image" name="image" accept="image/*"><br><br>
+    <form class="addThread" action="" method="post" enctype="multipart/form-data">
+        <label for="title">Tytuł:</label>
+        <input type="text" name="title" id="title"><br>
+        <label for="content">Treść:</label>
+        <textarea name="content" id="content"></textarea><br>
+        <label for="image">Wybierz zdjęcie:</label>
+        <div class="fileUpload">
+            <label class="fileUploadLabel" style="color: white" for="">
+            <input type="file" name="image" accept="image/*">
+            Wybierz plik
+            </label>
+        </div><br><br>
         <input type="submit" value="Stwórz wpis">
     </form>
+    <?php endif; ?>
 </body>
-<?php endif; ?>
 </html>
