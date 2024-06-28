@@ -9,6 +9,7 @@ require_once('Exception.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+//send mail
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $subject = $_POST['subject'];

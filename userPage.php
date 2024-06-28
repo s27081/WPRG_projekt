@@ -29,6 +29,7 @@ session_start();
         $userResult = mysqli_query($db, $userQuery);
         $userData = mysqli_fetch_assoc($userResult);
 
+        //finde user in database
         if ($userData) {
             echo "<h1>{$userData['username']}</h1>";
             echo "<p>Email: {$userData['email']}</p>";
@@ -37,6 +38,7 @@ session_start();
             exit();
         }
 
+        //join users and threads to display comments for each user
         $commentQuery = "
             SELECT c.content, c.date, t.title, t.id as thread_id
             FROM comments c
@@ -44,8 +46,10 @@ session_start();
             JOIN users u ON c.user_id = u.id
             WHERE u.username = '$username'
             ORDER BY c.date DESC";
+
         $commentResult = mysqli_query($db, $commentQuery);
 
+        //display comments
         if (mysqli_num_rows($commentResult) > 0) {
             echo "<h2>Komentarze użytkownika</h2>";
             echo "<ul>";

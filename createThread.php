@@ -20,7 +20,8 @@ if (isset($_SESSION['username']) && ($_SESSION['username'] === 'BlogMaster' || $
 
     $targetDir="images/";
     $targetFile = $targetDir . time() . "_" . $name;
-
+    
+    //insert image path
     if (move_uploaded_file($imageTmp, $targetFile)) {
         $sqlInsertimage = "INSERT INTO images (file_name, file_path, upload_date) VALUES ('$name', '$targetFile', NOW())";
         

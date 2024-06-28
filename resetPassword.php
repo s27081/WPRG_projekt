@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 
 include 'config.php';
@@ -15,7 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sqlCheckEmail = "SELECT * FROM users WHERE email = '$email' AND username = '$username'";
     
     $result = mysqli_query($db,$sqlCheckEmail);
-
+    
+    //if username and e-mail is valid change password 
     if (mysqli_num_rows($result) > 0) {
 
         $password = password_hash($password,PASSWORD_DEFAULT);

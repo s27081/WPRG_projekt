@@ -8,7 +8,7 @@ function showUsers(){
     $sql = "SELECT username FROM users";
     $result = mysqli_query($db, $sql);
     
-
+    //generate user
     if (mysqli_num_rows($result) > 0) {
         echo "<div class='adminPanel'>";
         while ($row = mysqli_fetch_assoc($result)) {
@@ -27,6 +27,7 @@ function showThreads(){
     $sql = "SELECT * FROM threads ORDER BY publish_date DESC";
     $result = mysqli_query($db, $sql);
 
+    //generate threads
     if (mysqli_num_rows($result) > 0) {
         echo "<div class='adminPanel'>";
         while ($row = mysqli_fetch_assoc($result)) {

@@ -66,11 +66,14 @@ foreach ($threads as $thread) {
     if (!empty($thread->commentList)) {
         echo "<h3>Komentarze:</h3>";
         echo "<ul>";
+    
+        //display comment, username and date
         foreach ($thread->commentList as $comment) {
             echo "<li>" . $comment['content'] . "<br><small>Uzytkownik: " . $comment['user'] . " dnia: " . $comment['date'] . "</small></li>";
         }
         echo "</ul>";
     }
+    //Form to add comment
     echo "<p><small>Dodaj komentarz</small></p>";
     echo "<form action='addComment.php' method='POST'>";
     echo "<input type='hidden' name='thread_id' value='" . $thread->id . "'>";

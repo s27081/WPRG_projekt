@@ -42,12 +42,13 @@ include 'config.php';
 
     $resultUsername = mysqli_query($db,$sqlCheckUsername);
 
+    //check if user exists
     if (mysqli_num_rows($result) > 0 || mysqli_num_rows($resultUsername) > 0) {
 
         echo "<p>Uzytkownik o podanej nazwie lub e-mailu juz istnieje</p>";
 
+    //if not add user
     }else{
-
     $password = password_hash($password,PASSWORD_DEFAULT);
 
     $sql = "INSERT INTO users (username, passcode, email) VALUES ('$username','$password','$email')";
